@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Todolist</title>
+    <script src="./js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- v-model 数据双向绑定 -->
+        <input type="text" v-model="inputValue">
+        <!-- v-on 绑定事件，触发事件在实例中的methods -->
+        <button v-on:click="handleBtnClick">提交</button>
+        <ul>
+            <li v-for="item in list">{{item}}</li>
+        </ul>
+    </div>
+
+</body>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: function () {
+            return {
+                list: [],
+                inputValue: ''
+            }
+
+        },
+        methods: {
+            // handleBtnClick: () => {   此处不支持es6写法
+            handleBtnClick: function () {
+                // alert(this.inputValue)
+                // this.list = this.inputValue   这样会出现 inputValue 有多少个字符，list就会出现多少条data
+                this.list.push(this.inputValue)
+                this.inputValue = ''
+            }
+        }
+    })
+</script>
+
+</html>
