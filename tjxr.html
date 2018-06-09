@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>条件渲染</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- 控制模版dom的显示   v-if 删除或者增加dom  v-show 使dom隐藏或者显示 -->
+        <div v-if="show">{{message}}</div>
+        <!-- <span>test</span> -->
+        <!-- v-else 与v-if需要放在一起写，才能使用  -->
+        <div v-else>Bye World</div>
+        <!-- <div v-show="show">{{message}}</div> -->
+        <br>
+        <!-- v-if 多个判断 -->
+        <div v-if="show_1 === 'a'">This is A </div>
+        <div v-else-if="show_1 === 'b'">This is B </div>
+        <div v-else>This is others</div>
+    </div>
+    
+    <script>
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                message: "Hello World",
+                show: false,
+                show_1: "a"
+            }
+        })
+    </script>
+</body>
+</html>
