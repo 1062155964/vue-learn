@@ -16,14 +16,44 @@
         <!-- v-on 绑定事件，触发事件在实例中的methods -->
         <button v-on:click="handleBtnClick">提交</button>
         <ul>
-            <li v-for="item in list">{{item}}</li>
+            <!-- :是v-bind:的简写 动态绑定一个或多个特性，或一个组件prop表达式  -->
+            <todo-item :content="item" :index="index" v-for="(item, index) in list" @delete = "handleItemDelete">
+            </todo-item>
         </ul>
     </div>
 
 </body>
 <script>
+    /* 注册全局组件 注册时可以大写，但是在html使用时，小写需要驼峰表示  
+     *props:获取todo-item的v-bind获取的值
+     */
+    // Vue.component("TodoItem", {
+    //     props: ["content"],
+    //     // template: "<li>"+content+"</li>"  vue中template变量要用{{content}}格式
+    //     template: "<li>{{content}}</li>"
+    // })
+    /**
+     注册局部组件  
+     将组件注册入app实例 
+    */
+    var TodoItem = {
+        // index表示当前点击list数组的对应值的下标
+        props: ["content","index"],
+        //@ 是 v-on:的缩写,给子组件绑定事件 
+        template: "<li @click='handleItemClick'>{{content}}</li>",
+        methods: {
+            handleItemClick: function () {
+                //触发当前实例的事件，附加参数回传给监听器回调，子组件向父组件传递
+                this.$emit("delete",this.index);
+            }
+        }
+    }
+
     var app = new Vue({
         el: '#app',
+        components: {
+            TodoItem: TodoItem
+        },
         data: function () {
             return {
                 list: [],
@@ -32,12 +62,12 @@
 
         },
         methods: {
-            // handleBtnClick: () => {   此处不支持es6写法
             handleBtnClick: function () {
-                // alert(this.inputValue)
-                // this.list = this.inputValue   这样会出现 inputValue 有多少个字符，list就会出现多少条data
                 this.list.push(this.inputValue)
                 this.inputValue = ''
+            },
+            handleItemDelete: function(index){
+                this.list.splice(index,1)
             }
         }
     })
