@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>非父子组件间的传值(bus)</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <child content="pickle"></child>
+        <child content="tiger"></child>
+    </div>
+
+    <script>
+        // 给Vue添加一个bus属性,属性为新的Vue实例
+        Vue.prototype.bus =new Vue()
+
+        Vue.component('child', {
+                props: {
+                    content : String
+                },
+                data: function(){
+                    return {
+                      Changecontent: this.content
+                    }
+                },
+                template : '<div @click="handleClick">{{Changecontent}}</div>',
+                methods : {
+                    handleClick: function(){
+                        this.bus.$emit('change', this.Changecontent)
+                    }
+                },
+                mounted : function() {
+                    var this_ = this
+                    this.bus.$on('change', function(msg){
+                        // 由于此处为on参数的函数, this的作用域改变，因此上面需获取this的状态
+                        this_.Changecontent = msg
+                    })
+                }
+            })
+        var vm = new Vue({
+            el: "#root"
+        })
+    </script>
+</body>
+</html>

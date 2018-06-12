@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件参数校验与组件绑定原生事件</title>
+    <script src="js/vue.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <!-- @click加上.native 给组件绑定原生事件，子组件即不用使用$emit传递触发事件就可以直接触发Vue根实例内的事件-->
+        <child @click.native="handleClick"></child>
+    </div>
+
+    <script>
+        Vue.component('child', {
+            props: {
+                // 校验参数 type 数据类型 required 是否请求传值   default 默认值 
+                content: {
+                    type: String,
+                    required: false,
+                    default: 'default value',
+                    // 校验值长度
+                    validator: function (value) {
+                        return (value.length > 5)
+                    }
+                }
+            },
+            template: '<div>{{content}}</div>'
+        })
+
+        var vm = new Vue({
+            el: "#root",
+            methods: {
+                handleClick: function () {
+                    alert('native click')
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>

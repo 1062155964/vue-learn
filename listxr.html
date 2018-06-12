@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>list渲染</title>
+    <script src="js/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <div v-for="(item, index) of list" :key="item.id">
+            {{item.text}} --- {{index}}
+        </div>
+    </div>
+
+    <script>
+        /*数组不允许改变下标对应value来改变页面的dom，要改变需使用方法有
+        splice push shift unshift sort reverse pop ，另外可用set方法
+        */
+        var vm = new Vue({
+            el: "#app",
+            data: {
+                list: [{
+                    id: "101",
+                    text: "hello"
+                }, {
+                    id: "102",
+                    text: "world"
+                }, {
+                    id: "103",
+                    text: "yes"
+                }]
+            }
+        })
+    </script>
+</body>
+
+</html>

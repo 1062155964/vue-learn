@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>父子组件传值</title>
+    <script src="js/vue.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <!-- 此处加冒号则count的内容为js表达式，则0和1是数字，不加则是字符串 -->
+        <counter @change="handleTotal" :count="0"></counter>
+        <counter @change="handleTotal" :count="0"></counter>
+        <div>{{total}}</div>
+    </div>
+
+    <script>
+        var counter = {
+            // props 获取父组件传递的值
+            props: ['count'],
+            data: function () {
+                // 通过将父组件的值赋值给子组件的data，可避免子组件直接操作父组件的dom对象
+                return {
+                    number: this.count
+                }
+            },
+            template: '<div @click="handleClick">{{number}}</div>',
+            methods: {
+                handleClick: function () {
+                    this.number++;
+                    // change指传递事件触发给父组件，后面的参数代表对应触发函数的参数
+                    this.$emit('change', 1)
+                }
+            }
+        }
+
+        var vm = new Vue({
+            el: "#root",
+            data: {
+                total: 0
+            },
+            components: {
+                counter: counter
+            },
+            methods: {
+                // 此处的step是子组件传给父组件触发的这个函数的参数
+                handleTotal: function (step) {
+                    this.total = this.total + step
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>

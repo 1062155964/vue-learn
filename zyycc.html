@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>作用域插槽</title>
+    <script src="js/vue.js"></script>
+</head>
+
+<body>
+    <div id="root">
+        <child>
+            <!-- slot-scope 用于将元素或者组件表示为作用域插槽，props内获取子组件内slot的item-->
+            <template slot-scope="props">
+                <li>{{props.item}}</li>
+            </template>
+        </child>
+    </div>
+
+    <script>
+        Vue.component('child', {
+            data: function () {
+                return {
+                    list: [1, 2, 3, 4]
+                }
+            },
+            // item 传递给上面的props
+            template: `<div>
+                        <ul>
+                            <slot v-for = "item of list" :item=item></slot>
+                        </ul>
+                       </div>`
+        })
+        var vm = new Vue({
+            el: "#root"
+
+        })
+    </script>
+</body>
+
+</html>

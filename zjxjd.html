@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>组件细节点</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+    <div id="root">
+        <table>
+            <tbody>
+                <!-- 父标签下的子标签不能直接采用<row></row>组件的template,会出bug，因此使用is属性 -->
+                <tr is="row"></tr>
+                <tr is="row"></tr>
+                <tr is="row"></tr>
+                <!-- <row></row> -->
+            </tbody>
+        </table>
+    </div>
+</body>
+
+<script>
+    Vue.component('row',{
+        // 除了根组件Vue实例,子组件使用对应data必须是函数不能是对象
+        data:function(){
+            return {
+                content : "this is a row"
+            }
+        },
+        template: '<tr><td>{{content}}</td></tr>'
+    })
+    var vm = new Vue({
+        el: '#root'
+    })
+</script>
+</html>
