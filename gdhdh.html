@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue中同时使用过渡和动画</title>
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+</head>
+    <style>
+        .fade-enter, .fade-leave-to {
+            opacity: 0;
+        }
+        .fade-enter-active, .fade-leave-active {
+            transition: opacity 3s;
+        }
+    </style>
+<body>
+    <div id="root">
+        <!-- 定义appear appear-active-class 使页面刷新时对应transition即可以有动画效果  -->
+        <!-- animate库是根据CSSkeyfrom属性定义的动画效果库 而上面自己定义的style是transition属性
+        定义的过渡效果 -->
+        <!--通过transition标签的type 可以规定CSS效果的时间;
+        :duration 直接定义CSS效果时间   -->
+        <transition 
+            type = "transition"
+            name="fade"  
+            appear
+            enter-active-class="animated shake fade-enter-active" 
+            leave-active-class="animated pulse fade-leave-active"
+            appear-active-class="animated shake"
+        >
+            <div v-if="show">hello world</div>
+        </transition>
+        <button @click="handleClick">切换</button>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: "#root",
+            data: {
+                show: true
+            },
+            methods: {
+                handleClick: function(){
+                    this.show = !this.show
+                }
+            } 
+        })
+    </script>
+</body>
+</html>

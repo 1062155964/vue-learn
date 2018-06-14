@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>animateCSS库引入</title>
+    <script src="js/vue.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/animate.css">
+</head>
+
+<body>
+    <div id="root">
+        <!-- enter-active-class:表示进入时的动画效果 leave-active-class:表示退出时的动画效果 -->
+        <!-- 引入animate库必须在类名前先加animated 再加对应效果 
+            具体效果 https://daneden.github.io/animate.css/ 查看-->
+        <transition name="fade" enter-active-class="animated shake" leave-active-class="animated pulse">
+            <div v-if="show">hello world</div>
+        </transition>
+        <button @click="handleClick">切换</button>
+    </div>
+
+    <script>
+        var vm = new Vue({
+            el: "#root",
+            data: {
+                show: false
+            },
+            methods: {
+                handleClick: function () {
+                    this.show = !this.show
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
